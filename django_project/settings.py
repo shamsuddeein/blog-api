@@ -37,14 +37,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',  # new
+
+    
+    # Third-party apps
+    'rest_framework', # Django REST framework
+    'corsheaders', 
+    'rest_framework.authtoken',
+    'allauth',  # new
+    'allauth.account',  # new
+    'allauth.socialaccount',  # new
+    'dj_rest_auth', 
+    'dj_rest_auth.registration',  # new
+
     # Local apps
     'accounts.apps.AccountsConfig',  
     'posts.apps.PostsConfig',
-
-    # Third-party apps
-    'rest_framework', # Django REST framework
-    'corsheaders', #new
-
 ]
 
 
@@ -52,7 +60,12 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ]
+    ],
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
 }
 
 
@@ -91,10 +104,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',  # new
             ],
         },
     },
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # new
+SITE_ID = 1  # new
 
 WSGI_APPLICATION = 'django_project.wsgi.application'
 
