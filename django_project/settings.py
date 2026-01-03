@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from environs import Env # new
+
+env = Env() # create an environs instance
+env.read_env() # read .env file, if it exists
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,7 +52,8 @@ INSTALLED_APPS = [
     'allauth.account',  # new
     'allauth.socialaccount',  # new
     'dj_rest_auth', 
-    'dj_rest_auth.registration',  # new
+    'dj_rest_auth.registration',
+    'drf_spectacular',
 
     # Local apps
     'accounts.apps.AccountsConfig',  
@@ -66,8 +71,16 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Blog API PROJECT',
+    'DESCRIPTION': 'A simple blog API project using Django REST Framework',
+    'VERSION': '1.0.0',
+    # OTHER SETTINGS
+}
 
 # new
 CORS_ORIGIN_WHITELIST = [
